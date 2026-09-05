@@ -1,4 +1,4 @@
-# Gplay — Vision Statement (Investor Pitch)
+# Gplay — Vision Statement 
 
 Every week, millions of amateur football sessions are organized the same way: a list in a WhatsApp group chat. To claim a spot, each player copies the entire list, pastes it, adds their name, and sends it back — hoping they copied the most recent version. When two players claim the last spot simultaneously, two conflicting lists exist and the group argues over who was first. When someone copies an outdated version, a name silently disappears. Payment tracking requires a second, parallel list with the same copy-paste mechanics — and the same failure modes. The result is a coordination process built on a broken primitive: a shared document with no single source of truth, edited by a dozen people at once, buried under hundreds of messages.
 
@@ -12,7 +12,7 @@ Crucially, Gplay never touches money and doesn't try to replace the group chat �
 
 ---
 
-## Product decisions (locked)
+## Product decisions 
 
 - **Accounts:** Host must have an account. Participants join as guest (name only) or sign up.
 - **Payments:** Always outside the app. Player taps "I have paid" (no notes/screenshots) → host confirms ✅ or rejects ❌. Disputes handled outside the app.
