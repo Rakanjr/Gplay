@@ -87,7 +87,7 @@ Firestore technically allows transactions from the device, but a phone app can b
 
 **What it is:** "State" = the data currently shown on screen. State management is the plumbing that answers: when data changes, how do the right screens redraw?
 
-**Why Gplay needs it:** The whole app is "data changes → screens update." A join on phone A must redraw the list on phone B; a host's ✅ must flip a badge everywhere. Riverpod pairs directly with Firestore's live updates: data flows in, screens rebuild automatically. Flutter's built-in `setState` falls apart across a multi-screen app; Riverpod is the most popular serious choice, well documented, and well known to every tutorial and AI tool — which matters when learning.
+**Why Gplay needs it:** The whole app is "data changes → screens update." A join on phone A must redraw the list on phone B; a host's must flip a badge everywhere. Riverpod pairs directly with Firestore's live updates: data flows in, screens rebuild automatically. Flutter's built-in `setState` falls apart across a multi-screen app; Riverpod is the most popular serious choice, well documented, and well known to every tutorial and AI tool — which matters when learning.
 
 ---
 
@@ -108,7 +108,7 @@ Firestore technically allows transactions from the device, but a phone app can b
 | VS Code + Flutter extension | The editor. Adds run button, device picker, error highlighting, hot reload (code change visible on device in under a second) |
 | Xcode | Installed, never opened — provides Apple's compilers Flutter calls behind the scenes |
 | Android Studio | Installed, never opened — provides the Android SDK and emulators |
-| `flutter doctor` | Built-in health check: prints exactly what's installed, what's missing, and the fix for each. Run until everything is ✅ |
+| `flutter doctor` | Built-in health check: prints exactly what's installed, what's missing, and the fix for each. Run until everything is good |
 | git + GitHub | Version control (already set up) |
 | Paper sketch | Design — 3 screens don't justify Figma; hot reload makes the app itself the design tool |
 
