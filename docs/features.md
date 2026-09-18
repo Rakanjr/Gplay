@@ -61,6 +61,8 @@
 | F3.1 | Participant leave: frees the spot, list updates on all devices | — (list integrity) | High |
 | F3.2 | Host remove: host removes any participant, visible to everyone, never silent | FR-9 | High |
 | F3.3 | Auto-promotion: first benched player moves up in the same transaction when a spot opens; push notification deferred post-MVP (live list is the notification) | FR-7 | Medium |
+| F3.4 | Activity feed: append-only event log below the list (joins, leaves, removals, promotions) — the visible, never-silent record; left/removed players leave the list and appear here | FR-9 | High |
+| F3.5 | Host benches a confirmed player: moves to the END of the bench, keeps payment status | — (host management) | Medium |
 | **F4 — Payments (P2)** | | | |
 | F4.1 | "I have paid": participant taps → status unpaid → pending (can untap) | FR-10 | High |
 | F4.2 | Host confirm / reject: ✅ → paid, ❌ → back to unpaid | FR-11 | High |
@@ -75,20 +77,24 @@
 | F6.1 | Offline reads: last known list visible without connection; writes blocked with clear message | NFR-4 | Low |
 | F6.2 | Loading, empty, and error states with plain-language text on every screen | — (UX quality) | Low |
 | F6.3 | 15-second join pass: measure and cut taps on the link → joined path | NFR-5 | Low |
+| **F7 — Push Notifications (post-MVP)** | | | |
+| F7.1 | Push: "You've been promoted from the bench" | FR-7 | Low |
+| F7.2 | Push: "The host removed/benched you" | FR-9 (supporting) | Low |
+| F7.3 | Push: "Payment accepted / rejected" | FR-11 (supporting) | Low |
 
 ---
 
 ## Build Order
 
-All High-priority features first — that is the true MVP (14 features):
+All High-priority features first — that is the true MVP (15 features):
 
 ```
 F1.1 → F1.2 → F1.4 → F2.1 → F2.2 → F2.3 → F2.5
-→ F3.1 → F3.2 → F4.1 → F4.2 → F4.3 → F5.1 → F5.3
+→ F3.1 → F3.2 → F3.4 → F4.1 → F4.2 → F4.3 → F5.1 → F5.3
 ```
 
 Then all Medium, then all Low.
 
 ## Explicitly Out of Scope (MVP)
 
-Recurring sessions, team splitting, reminders, in-app payments, chat, screenshots/notes on payments, web version of the session page, marketing/explainer website.
+Recurring sessions, team splitting, reminders, in-app payments, chat, screenshots/notes on payments, web version of the session page, marketing/explainer website, blocking users (anonymous accounts can't be truly blocked — reinstall mints a new identity; effective blocking needs verified identity, which conflicts with the 15-second guest join. Revisit post-MVP if removal proves insufficient).
