@@ -4,7 +4,7 @@ The join is the heart of P1: two simultaneous joins can never collide, lose a na
 
 ## Steps
 
-1. **App:** guest taps Join, enters name, and the app calls the `join` Cloud Function with the session ID and name.
+1. **App:** participant taps Join, enters name, and the app calls the `join` Cloud Function with the session ID and name.
 2. **Cloud Function:** starts a transaction and reads the session document. Everything until the commit is atomic. If the document does not exist, return "session not found."
 3. **CF / validate:**
    - session `status` must be `open`, otherwise return "session closed"
