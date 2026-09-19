@@ -83,14 +83,14 @@ Display strings are composed on the client from `type` + names, e.g. `remove` �
 
 ## Who may write what (preview of security rules)
 
-| Data | Client writes | Cloud Function writes |
+| Collection | App (client) can write | Cloud Functions (server) can write |
 |---|---|---|
-| `users` own doc | ✅ (own doc only) | ✅ |
-| `sessions` | ❌ | ✅ only |
-| `participants` | ❌ | ✅ only (transactions) |
-| `events` | ❌ | ✅ only (append) |
+| users | own document only | yes |
+| sessions | no | only this way |
+| participants | no | only this way, inside transactions |
+| events | no | only this way, append-only (never edited or deleted) |
 
-This table is why FR-5/NFR-3 hold: there is no client-side path to a list mutation at all.
+This table is why FR-5 and NFR-3 hold: there is no client-side path to a list mutation at all.
 
 ## Data lifecycle (from tech-stack.md, unchanged)
 
