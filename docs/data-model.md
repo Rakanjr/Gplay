@@ -37,7 +37,7 @@ One document per account — hosts (email+password) and guests (anonymous) alike
 | `startTime` | timestamp | create/edit fn | |
 | `capacity` | int | create/edit fn | edit fn rejects capacity < `confirmedCount` (F5.2) |
 | `totalCost` | number | create/edit fn | |
-| `status` | enum | **server only** | `open` · `closed` · `cancelled` |
+| `sessionStatus` | enum | **server only** | `open` · `closed` · `cancelled` |
 | `closedAt` | timestamp? | **server only** | set on manual close/cancel |
 | `confirmedCount` | int | **server only** (transaction) | for preview screens |
 | `benchCount` | int | **server only** (transaction) | for preview screens |
@@ -45,7 +45,7 @@ One document per account — hosts (email+password) and guests (anonymous) alike
 | `joinCounter` | int | **server only** (transaction) | hands out strict join order |
 | `createdAt` | timestamp | create fn | |
 
-**Derived, never stored:** `costPerPerson = totalCost ÷ capacity` (FR-3 — updates live on edit for free). The "has started / has ended" screens (LR-2/3) are derived from `status` + `startTime` (+2h); a `closed`/`cancelled` session can never be re-derived from time alone, which is why `status` is stored.
+**Derived, never stored:** `costPerPerson = totalCost ÷ capacity` (FR-3 — updates live on edit for free). The "has started / has ended" screens (LR-2/3) are derived from `sessionStatus` + `startTime` (+2h); a `closed`/`cancelled` session can never be re-derived from time alone, which is why `sessionStatus` is stored.
 
 ### `sessions/{sessionId}/participants/{uid}`
 
@@ -54,14 +54,14 @@ The link between a user and a session. One doc per membership; document ID is th
 | Field | Type | Written by | Notes |
 |---|---|---|---|
 | `displayName` | string | join fn | snapshot of the name at join time |
-| `status` | enum | **server only** | `confirmed` · `benched` · `left` · `removed` |
+| `userStatus` | enum | **server only** | `confirmed` · `benched` · `left` · `removed` |
 | `order` | int | join fn (transaction) | from `joinCounter`; strict, tie-free ordering |
 | `joinedAt` | timestamp | join fn | display/audit |
 | `payment` | enum | **server only** | `unpaid` · `pending` · `paid` |
 | `paymentUpdatedAt` | timestamp? | payment fns | |
 
 Rules:
-- The visible list = `status IN (confirmed, benched)`, sorted by `order` within each group. Bench position number = index in that sorted bench (derived, never stored).
+- The visible list = `userStatus IN (confirmed, benched)`, sorted by `order` within each group. Bench position number = index in that sorted bench (derived, never stored).
 - `left` / `removed` docs are hidden from the list but **persist until session end** (FR-13 dispute record, FR-9 audit). Both may re-join: the doc resets to active with a **new** `order` (back of the queue) — no jumping back to an old spot.
 - Payment controls are shown only for `confirmed` players. Promotion (F3.3) and host-bench (F3.5) carry `payment` over unchanged.
 - A rejected payment is not a status: `payment` just returns to `unpaid` (badge flips back; post-MVP F7.3 adds a push).
