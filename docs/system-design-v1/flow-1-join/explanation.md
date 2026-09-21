@@ -7,15 +7,15 @@ The join is the heart of P1: two simultaneous joins can never collide, lose a na
 1. **App:** participant taps Join, enters name, and the app calls the `join` Cloud Function with the session ID and name.
 2. **Cloud Function:** starts a transaction and reads the session document. Everything until the commit is atomic. If the document does not exist, return "session not found."
 3. **CF / validate:**
-   - session `status` must be `open`, otherwise return "session closed"
+   - session `sessionStatus` must be `open`, otherwise return "session closed"
    - no active participant doc with this uid in this session, otherwise return "already joined" (one active membership per user per session; membership in other sessions is unaffected)
 4. **CF / assign:**
-   - if `confirmedCount < capacity`: `status: confirmed`, `confirmedCount += 1`
-   - else: `status: benched`, `benchCount += 1`
+   - if `confirmedCount < capacity`: `userStatus: confirmed`, `confirmedCount += 1`
+   - else: `userStatus: benched`, `benchCount += 1`
 5. **CF / order:** `order = joinCounter + 1`; `joinCounter += 1`. Strict, tie-free join order, independent of network timing.
 6. **CF / write participant:**
-   - fresh join: create the doc (name, status, `order`, `joinedAt` = server timestamp, `payment: unpaid`)
-   - re-join (a `left`/`removed` doc with this uid exists): update that doc with the new status, a new `order`, a new `joinedAt`, and `payment` reset to `unpaid` (a new join is a new commitment)
+   - fresh join: create the doc (name, `userStatus`, `order`, `joinedAt` = server timestamp, `payment: unpaid`)
+   - re-join (a `left`/`removed` doc with this uid exists): update that doc with the new `userStatus`, a new `order`, a new `joinedAt`, and `payment` reset to `unpaid` (a new join is a new commitment)
 7. **CF / event:** append one `events` entry: `type: join`, actor = this user, server timestamp. This is the activity-feed line.
 8. **CF / commit:** counters, participant doc, and event commit as one atomic unit. On conflict the transaction retries from step 2.
 9. **Firestore:** pushes the new state to every open client (about 1 second).
