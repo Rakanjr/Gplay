@@ -4,7 +4,7 @@ The participant taps "I have paid" (`unpaid` to `pending`) or taps again to undo
 
 ## Steps
 
-1. **App:** participant taps "I have paid" (or taps again to undo), and the app calls the payment Cloud Function with the session ID. Identity comes from the auth token.
+1. **App:** participant taps "I have paid" (or taps again to undo), and the app calls the togglePayment Cloud Function with the session ID. Identity comes from the auth token.
 2. **CF:** starts a transaction; reads the session doc and the participant doc. If the session doc does not exist, abort and return "session not found."
 3. **CF / validate:** session `sessionStatus` is `open`; the participant doc exists and `userStatus` is `confirmed`. (The UI only shows payment controls to confirmed players, but the server re-verifies every UI assumption: a stale or tampered client could send the call for a benched player.)
 4. **CF / validate transition:**
